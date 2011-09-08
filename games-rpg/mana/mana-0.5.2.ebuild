@@ -26,8 +26,7 @@ RDEPEND="!=games-rpg/tmw-0.5.2
 	media-libs/libpng
 	media-fonts/dejavu
 	>=dev-games/guichan-0.8.1[sdl]
-	!opengl? ( media-libs/libsdl[video] )
-	opengl? ( media-libs/libsdl[opengl,video] )
+	media-libs/libsdl[opengl?,video]
 	media-libs/sdl-gfx
 	x11-libs/libX11
 	nls? ( virtual/libintl )
