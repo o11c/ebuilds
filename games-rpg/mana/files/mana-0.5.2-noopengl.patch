@@ -1,0 +1,31 @@
+diff --git i/src/CMakeLists.txt w/src/CMakeLists.txt
+index 35af94f..7b64d40 100644
+--- i/src/CMakeLists.txt
++++ w/src/CMakeLists.txt
+@@ -649,6 +649,7 @@ TARGET_LINK_LIBRARIES(mana
+     ${CURL_LIBRARIES}
+     ${LIBXML2_LIBRARIES}
+     ${GUICHAN_LIBRARIES}
++    ${X11_LIBRARIES}
+     ${OPENGL_LIBRARIES}
+     ${LIBINTL_LIBRARIES}
+     ${EXTRA_LIBRARIES})
+diff --git i/src/openglgraphics.h w/src/openglgraphics.h
+index ee96e19..73adbdc 100644
+--- i/src/openglgraphics.h
++++ w/src/openglgraphics.h
+@@ -30,7 +30,6 @@
+ #define NO_SDL_GLEXT
+ 
+ #include <SDL_opengl.h>
+-#endif
+ 
+ class OpenGLGraphics : public Graphics
+ {
+@@ -129,5 +128,6 @@ class OpenGLGraphics : public Graphics
+         bool mColorAlpha;
+         bool mSync;
+ };
++#endif //USE_OPENGL
+ 
+ #endif
