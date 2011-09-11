@@ -7,7 +7,7 @@ inherit eutils
 
 DESCRIPTION="Branding for the Mana client for server.themanaworld.org"
 HOMEPAGE="http://themanaworld.org/"
-SRC_URI="http://themanaworld.org/files/${PN}-branding-${PV}.tar.gz"
+SRC_URI="mirror://sourceforge/themanaworld/${PN}-branding-${PV}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -17,7 +17,7 @@ IUSE=""
 RDEPEND="games-rpg/mana"
 DEPEND=""
 
-S="${WORKDIR}/${PN}-branding"
+S="${WORKDIR}/${PN}-branding-${PV}"
 
 src_install() {
 	# Things not yet done:
