@@ -66,6 +66,7 @@ src_unpack() {
 
 src_prepare() {
 	epatch "${FILESDIR}/${P}-lxkbui.patch"
+	epatch "${FILESDIR}/${P}-dlopen.patch"
 	if use doc; then
 		chmod -x "${WORKDIR}"/html/*.html || die
 	fi

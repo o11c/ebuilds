@@ -1,0 +1,64 @@
+diff -ruN fontforge-20100501~/fontforge/parsepdf.c fontforge-20100501/fontforge/parsepdf.c
+--- fontforge-20100501~/fontforge/parsepdf.c	2010-04-05 23:10:26.000000000 +0300
++++ fontforge-20100501/fontforge/parsepdf.c	2011-05-17 22:08:10.000000000 +0300
+@@ -759,7 +759,11 @@
+     if ( zlib!=NULL )
+ return( true );
+ 
+-    if ( (zlib = dlopen("libz" SO_EXT,RTLD_GLOBAL|RTLD_LAZY))==NULL ) {
++    if ( (zlib = dlopen("libz" SO_EXT,RTLD_GLOBAL|RTLD_LAZY))==NULL
++#ifdef SO_1_EXT                                                                                                                                                                                                 
++            && (zlib = dlopen("libz" SO_1_EXT,RTLD_LAZY))==NULL
++#endif 
++            ) {
+ 	LogError( "%s", dlerror());
+ return( false );
+     }
+diff -ruN fontforge-20100501~/fontforge/svg.c fontforge-20100501/fontforge/svg.c
+--- fontforge-20100501~/fontforge/svg.c	2010-04-29 06:53:22.000000000 +0300
++++ fontforge-20100501/fontforge/svg.c	2011-05-17 22:08:50.000000000 +0300
+@@ -1151,7 +1151,11 @@
+     if ( xmltested )
+ return( libxml!=NULL );
+ 
+-    dlopen("libz" SO_EXT,RTLD_GLOBAL|RTLD_LAZY);
++    dlopen("libz" SO_EXT,RTLD_GLOBAL|RTLD_LAZY)
++#ifdef SO_1_EXT                                                                                                                                                                                                 
++        || dlopen("libz" SO_1_EXT,RTLD_LAZY)
++#endif
++        ;
+ 
+     libxml = dlopen( "libxml2" SO_EXT,RTLD_LAZY);
+ # ifdef SO_2_EXT
+diff -ruN fontforge-20100501~/fontforge/ufo.c fontforge-20100501/fontforge/ufo.c
+--- fontforge-20100501~/fontforge/ufo.c	2010-04-05 23:10:26.000000000 +0300
++++ fontforge-20100501/fontforge/ufo.c	2011-05-17 22:07:03.000000000 +0300
+@@ -918,7 +918,11 @@
+     if ( xmltested )
+ return( libxml!=NULL );
+ 
+-    dlopen("libz" SO_EXT,RTLD_GLOBAL|RTLD_LAZY);
++    dlopen("libz" SO_EXT,RTLD_GLOBAL|RTLD_LAZY)
++#ifdef SO_1_EXT                                                                                                                                                                                                 
++        || dlopen("libz" SO_1_EXT,RTLD_LAZY)
++#endif
++        ;
+ 
+     libxml = dlopen( "libxml2" SO_EXT,RTLD_LAZY);
+ # ifdef SO_2_EXT
+diff -ruN fontforge-20100501~/fontforge/woff.c fontforge-20100501/fontforge/woff.c
+--- fontforge-20100501~/fontforge/woff.c	2010-04-05 23:10:26.000000000 +0300
++++ fontforge-20100501/fontforge/woff.c	2011-05-17 22:05:15.000000000 +0300
+@@ -76,7 +76,11 @@
+     if ( zlib!=NULL )
+ return( true );
+ 
+-    if ( (zlib = dlopen("libz" SO_EXT,RTLD_GLOBAL|RTLD_LAZY))==NULL ) {
++    if ( (zlib = dlopen("libz" SO_EXT,RTLD_GLOBAL|RTLD_LAZY))==NULL 
++#ifdef SO_1_EXT
++            && (zlib = dlopen("libz" SO_1_EXT,RTLD_LAZY))==NULL
++#endif
++            ) {
+ 	LogError( "%s", dlerror());
+ return( false );
+     }
