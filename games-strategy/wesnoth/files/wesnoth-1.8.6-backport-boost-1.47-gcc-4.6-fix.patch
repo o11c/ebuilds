@@ -1,0 +1,103 @@
+commit 50720899bea46acb5b9f0c9f7c5dec2c43c9c585
+Author: mordante <mordante@75b3775d-3801-0410-9e12-e2e43121521d>
+Date:   2011-10-25 19:31:42 +0000
+
+    Fix compilation with clang 2.9 / boost 1.47.
+    
+    This applies a slightly modified version of the patch linked in
+    bug #18399. The changes are coding-style related.
+    
+    The patch was intended to fix compilation with boost 1.47, but that
+    boost version is not yet in Debian so didn't test that part. Since it
+    does fix compilation with clang 2.9 Iapplied it, without waiting for
+    boost 1.47 to hit Debian.
+    
+    git-svn-id: http://svn.gna.org/svn/wesnoth/trunk@51638 75b3775d-3801-0410-9e12-e2e43121521d
+
+    Note: this patch was edited by hand to remove the following changelog patch:
+    +   * Fixed: Compilation with boost 1.47 (bug #18399's patch).
+    +   * Fixed: Compilation with the clang 2.9 compiler (bug #18399's patch).
+
+diff --git a/src/gui/widgets/tree_view_node.cpp b/src/gui/widgets/tree_view_node.cpp
+index 289cef7..164759f 100644
+--- a/src/gui/widgets/tree_view_node.cpp
++++ b/src/gui/widgets/tree_view_node.cpp
+@@ -233,6 +233,25 @@ void ttree_view_node::clear()
+ 
+ struct ttree_view_node_implementation
+ {
++private:
++
++	template<class W, class It>
++	static W* find_at_aux(
++			  It begin
++			, It end
++			, const tpoint& coordinate
++			, const bool must_be_active)
++	{
++		for(It it = begin; it != end; ++it) {
++			if(W* widget = it->find_at(coordinate, must_be_active)) {
++				return widget;
++			}
++		}
++		return NULL;
++	}
++
++public:
++
+ 	template<class W>
+ 	static W* find_at(
+ 			  typename tconst_duplicator<W, ttree_view_node>::type&
+@@ -250,13 +269,9 @@ struct ttree_view_node_implementation
+ 		}
+ 
+ 		typedef typename tconst_duplicator<W, ttree_view_node>::type thack;
+-		foreach(thack& node, tree_view_node.children_) {
+-			if(W* widget = node.find_at(coordinate, must_be_active)) {
+-				return widget;
+-			}
+-		}
+-
+-		return NULL;
++		return find_at_aux<W>(tree_view_node.children_.begin(),
++				      tree_view_node.children_.end(),
++				      coordinate, must_be_active);
+ 	}
+ };
+ 
+@@ -308,7 +323,10 @@ tpoint ttree_view_node::get_current_size() const
+ 		return size;
+ 	}
+ 
+-	foreach(const ttree_view_node& node, children_) {
++	for(boost::ptr_vector<ttree_view_node>::const_iterator itor =
++			children_.begin (); itor != children_.end (); ++itor) {
++
++		const ttree_view_node& node = *itor;
+ 
+ 		if(node.grid_.get_visible() == twidget::INVISIBLE) {
+ 			continue;
+@@ -339,7 +357,10 @@ tpoint ttree_view_node::get_unfolded_size() const
+ 		size.x += (get_indention_level() - 1) * tree_view().indention_step_size_;
+ 	}
+ 
+-	foreach(const ttree_view_node& node, children_) {
++	for(boost::ptr_vector<ttree_view_node>::const_iterator itor =
++			children_.begin (); itor != children_.end (); ++itor) {
++
++		const ttree_view_node& node = *itor;
+ 
+ 		if(node.grid_.get_visible() == twidget::INVISIBLE) {
+ 			continue;
+@@ -373,7 +394,10 @@ tpoint ttree_view_node::calculate_best_size(const int indention_level
+ 
+ 	DBG_GUI_L << LOG_HEADER << " own grid best size " << best_size << ".\n";
+ 
+-	foreach(const ttree_view_node& node, children_) {
++	for(boost::ptr_vector<ttree_view_node>::const_iterator itor =
++			children_.begin (); itor != children_.end (); ++itor) {
++
++		const ttree_view_node& node = *itor;
+ 
+ 		if(node.grid_.get_visible() == twidget::INVISIBLE) {
+ 			continue;

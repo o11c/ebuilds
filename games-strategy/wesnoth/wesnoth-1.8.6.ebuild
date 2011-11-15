@@ -40,7 +40,10 @@ DEPEND="${RDEPEND}
 	)
 	sys-devel/gettext"
 
+PATCHES=( "${FILESDIR}"/$P-backport-boost-1.47-gcc-4.6-fix.patch )
+
 src_prepare() {
+	base_src_prepare
 	if use dedicated || use server ; then
 		sed \
 			-e "s:GAMES_BINDIR:${GAMES_BINDIR}:" \
