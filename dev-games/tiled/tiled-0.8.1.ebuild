@@ -8,7 +8,7 @@ DESCRIPTION="a general purpose tile map editor"
 HOMEPAGE="http://mapeditor.org/"
 SRC_URI="mirror://sourceforge/tiled/tiled-qt/${PV}/${PN}-qt-${PV}.tar.gz"
 
-LICENSE="GPL-3 LGPL-3 BSD"
+LICENSE="|| ( GPL-2 GPL-3 ) BSD"
 SLOT=0
 KEYWORDS="~amd64" # should be fine on all architectures
 IUSE=""
