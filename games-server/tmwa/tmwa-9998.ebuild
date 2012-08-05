@@ -4,6 +4,7 @@ inherit git-2
 DESCRIPTION="A fully free and open source MMORPG game server"
 HOMEPAGE="http://themanaworld.org/"
 EGIT_REPO_URI="git://gitorious.org/tmw-eathena/mainline.git"
+EGIT_PROJECT=tmwa-legacy.git
 
 LICENSE="GPL-2"
 SLOT="1" # classic server
