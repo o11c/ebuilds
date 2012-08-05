@@ -1,3 +1,6 @@
+# Copyright 2012 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
 EAPI=4
 # tiled installs all languages unconditionally, but we patch it.
 LANGS="cs de en es fr he it ja lv nl pt_BR pt ru zh"
