@@ -1,9 +1,9 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/games-rpg/tmw/tmw-0.5.2.ebuild,v 1.1 2011/08/02 11:56:25 tupone Exp $
+# $Header: /var/cvsroot/gentoo-x86/games-rpg/tmw/Attic/tmw-0.0.29.1.ebuild,v 1.6 2010/05/24 15:45:55 tupone Exp $
 
 EAPI=2
-inherit eutils games cmake-utils git-2
+inherit eutils games autotools git-2
 
 DESCRIPTION="A fully free and open source MMORPG game client (3rd party)"
 HOMEPAGE="http://manaplus.evolonline.org/"
@@ -12,7 +12,7 @@ EGIT_COMMIT="v${PV}"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~amd64 ~ppc ~x86"
 IUSE="nls opengl"
 
 RDEPEND="
@@ -37,30 +37,31 @@ DEPEND="${RDEPEND}
 	nls? ( sys-devel/gettext )"
 
 DOCS=( AUTHORS ChangeLog NEWS README )
-PATCHES=( "${FILESDIR}"/${PN}-gentoo.patch )
+PATCHES=( )
 
 src_prepare() {
 	base_src_prepare
 	sed -i \
-		-e "s:@GENTOO_BINDIR@:${GAMES_BINDIR}:" \
-		-e "s:@GENTOO_DATADIR@:${GAMES_DATADIR}/${PN}:" \
-		CMakeLists.txt \
+		-e '/^SUBDIRS/s/fonts//' \
+		data/Makefile.am \
 		|| die "sed failed"
+	eautoreconf
 }
 
 src_configure() {
-	mycmakeargs=(
-		$(cmake-utils_use_with opengl)
-		$(cmake-utils_use_enable nls)
-	)
-	cmake-utils_src_configure
+	egamesconf \
+		--without-internalguichan \
+		--disable-dependency-tracking \
+		--localedir=/usr/share/locale \
+		$(use_enable nls) \
+		$(use_with opengl)
 }
 
 src_install() {
-	cmake-utils_src_install
+	base_src_install
+	emake DESTDIR="${D}" install || die "emake install failed"
 	dosym /usr/share/fonts/dejavu/DejaVuSans-Bold.ttf "${GAMES_DATADIR}"/${PN}/data/fonts/dejavusans-bold.ttf
 	dosym /usr/share/fonts/dejavu/DejaVuSans.ttf "${GAMES_DATADIR}"/${PN}/data/fonts/dejavusans.ttf
 	dosym /usr/share/fonts/dejavu/DejaVuSansMono.ttf "${GAMES_DATADIR}"/${PN}/data/fonts/dejavusans-mono.ttf
-	insinto "${GAMES_DATADIR}"/${PN}/data
 	prepgamesdirs
 }
