@@ -13,7 +13,7 @@ EGIT_COMMIT="v${PV}"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~ppc ~x86"
-IUSE="nls opengl"
+IUSE="nls opengl internalguichan"
 
 RDEPEND="
 	>=dev-games/physfs-1.0.0
@@ -54,7 +54,8 @@ src_configure() {
 		--disable-dependency-tracking \
 		--localedir=/usr/share/locale \
 		$(use_enable nls) \
-		$(use_with opengl)
+		$(use_with opengl) \
+		$(use_with internalguichan)
 }
 
 src_install() {
