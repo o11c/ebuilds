@@ -1,4 +1,4 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/games-rpg/tmw/Attic/tmw-0.0.29.1.ebuild,v 1.6 2010/05/24 15:45:55 tupone Exp $
 
@@ -8,11 +8,15 @@ inherit eutils games autotools git-2
 DESCRIPTION="A fully free and open source MMORPG game client (3rd party)"
 HOMEPAGE="http://manaplus.evolonline.org/"
 EGIT_REPO_URI="git://gitorious.org/manaplus/manaplus.git"
-EGIT_COMMIT="v${PV}"
+if [ "${PV}" != 9999 ]; then
+	EGIT_COMMIT="v${PV}"
+fi
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~ppc ~x86"
+if [ "${PV}" != 9999 ]; then
+	KEYWORDS="~amd64 ~ppc ~x86"
+fi
 IUSE="nls opengl internalguichan"
 
 RDEPEND="
