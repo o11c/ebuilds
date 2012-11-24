@@ -14,11 +14,25 @@ SRC_URI=""
 
 LICENSE="GPL-3"
 SLOT="0"
+# All platforms should probably work.
 KEYWORDS="~x86 ~amd64"
-IUSE=""
+# At least one file is needed in /etc/xdg/menus
+IUSE="gnome kde custom"
+
+REQUIRED_USE="|| ( gnome kde custom )"
 
 # distutils-r1 sets DEPEND and RDEPEND
-#DEPEND="${DEPEND}"
+#DEPEND="${DEPEND} "
+# There's a bug in pyxdg 0.23 affecting KDE menus
 RDEPEND="${RDEPEND}
-	dev-python/pyxdg
+dev-python/pyxdg
+kde? ( >=dev-python/pyxdg-0.24 )
+gnome? ( gnome-base/gnome-menus )
+kde? ( kde-base/kdelibs )
 "
+
+pkg_postinst() {
+	elog 'Note that you must export XDG_MENU_PREFIX before calling obxmenu'
+	elog 'unless you have created /etc/xdg/menus/applications.menu'
+	elog 'Expected values are gnome- and kde-4-'
+}
