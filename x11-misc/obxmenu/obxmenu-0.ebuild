@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
+EAPI=5
 # these are what I test with, there's no reason others might not work
 PYTHON_COMPAT=( pypy1_8 pypy1_9 python3_2 python2_6 python2_7 )
 inherit git-2 distutils-r1
