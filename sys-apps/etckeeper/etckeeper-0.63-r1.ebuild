@@ -30,6 +30,9 @@ RDEPEND="${DEPEND}
 
 src_prepare(){
 	epatch "${FILESDIR}"/${P}-gentoo.patch
+	epatch "${FILESDIR}"/prefix1.patch
+	epatch "${FILESDIR}"/prefix2.patch
+	eprefixify etckeeper pre-install.d/10packagelist
 }
 
 src_compile() {
@@ -44,11 +47,6 @@ src_install(){
 			die "bzr support installation failed!"
 	}
 	use bazaar && python_foreach_impl bzr_install
-
-	if use prefix; then
-		doenvd "${FILESDIR}"/99${PN}
-		eprefixify "${ED}"/etc/env.d/99${PN}
-	fi
 
 	newbashcomp bash_completion ${PN}
 	dodoc README TODO
@@ -67,9 +65,9 @@ pkg_postinst(){
 	elog "This ebuild just ensures at least one is installed!"
 	elog "For dev-vcs/bzr you need to enable 'bazaar' useflag."
 	elog
-	elog "You may want to adjust your /etc/portage/bashrc"
-	elog "see the example file in /usr/share/doc/${PF}/examples"
+	elog "You may want to adjust your ${EPREFIX}/etc/portage/bashrc"
+	elog "see the example file in ${EPREFIX}/usr/share/doc/${PF}/examples"
 	elog
 	elog "To initialise your etc-dir as a repository run:"
-	elog "${PN} init -d /etc"
+	elog "${PN} init"
 }

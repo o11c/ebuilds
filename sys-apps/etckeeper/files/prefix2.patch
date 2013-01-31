@@ -1,0 +1,9 @@
+--- pre-install.d/10packagelist.old	2013-01-31 13:10:27.000000000 -0800
++++ pre-install.d/10packagelist	2013-01-31 13:11:23.000000000 -0800
+@@ -1,4 +1,4 @@
+ #!/bin/sh
+ # This list will be later used when committing.
+-mkdir -p /var/cache/etckeeper/
+-etckeeper list-installed > /var/cache/etckeeper/packagelist.pre-install
++mkdir -p @GENTOO_PORTAGE_EPREFIX@/var/cache/etckeeper/
++etckeeper list-installed > @GENTOO_PORTAGE_EPREFIX@/var/cache/etckeeper/packagelist.pre-install

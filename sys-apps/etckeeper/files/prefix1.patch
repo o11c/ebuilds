@@ -1,0 +1,20 @@
+--- etckeeper.old	2013-01-31 13:09:47.000000000 -0800
++++ etckeeper	2013-01-31 13:11:14.000000000 -0800
+@@ -2,7 +2,7 @@
+ set -e
+ 
+ if [ -z "$ETCKEEPER_CONF_DIR" ]; then
+-	ETCKEEPER_CONF_DIR=/etc/etckeeper
++	ETCKEEPER_CONF_DIR=@GENTOO_PORTAGE_EPREFIX@/etc/etckeeper
+ fi
+ 
+ conf="$ETCKEEPER_CONF_DIR/etckeeper.conf"
+@@ -85,7 +85,7 @@
+ fi
+ 
+ if [ -z "$ETCKEEPER_DIR" ]; then
+-	ETCKEEPER_DIR=/etc
++	ETCKEEPER_DIR=@GENTOO_PORTAGE_EPREFIX@/etc
+ fi
+ cd "$ETCKEEPER_DIR"
+ export ETCKEEPER_DIR
