@@ -54,6 +54,12 @@ src_install() {
 		insinto /usr/share/doc/${PF}/examples
 		doins samples/*.{cc,h}
 	fi
+
+	insinto /usr/src/gtest
+	doins CMakeLists.txt
+	doins -r cmake
+	insinto /usr/src/gtest/src
+	doins fused-src/gtest/*
 }
 
 gtest_src_configure() {
