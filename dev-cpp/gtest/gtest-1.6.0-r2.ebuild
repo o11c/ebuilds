@@ -16,6 +16,16 @@ IUSE="examples"
 DEPEND="app-arch/unzip"
 RDEPEND=""
 
+# need to disable some of the default rules
+
+src_configure() {
+	:
+}
+
+src_compile() {
+	:
+}
+
 src_install() {
 	if use examples ; then
 		insinto /usr/share/doc/${PF}/examples
@@ -23,10 +33,16 @@ src_install() {
 	fi
 
 	doheader -r include/*
+	dodoc README CHANGES
 
 	insinto /usr/src/gtest
 	doins CMakeLists.txt
 	doins -r cmake
 	insinto /usr/src/gtest/src
 	doins fused-src/gtest/*
+}
+
+pkg_postinst() {
+	ewarn "As recommended by upstream, this package no longer ships a shared library or the gtest-config binary."
+	ewarn "See /usr/share/doc/${PF}/README for instructions."
 }
